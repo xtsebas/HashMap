@@ -5,6 +5,13 @@ import java.util.*;
 public class Operations {
     private static Scanner in = new Scanner(System.in);
     public static HashMap<String, Object> usersProducts = new HashMap<String, Object>();
+
+    /**
+     *Transforms a List to a selected map
+     * @param fpath
+     * @param mapselected
+     * @return
+     */
     public static Map ListtoMap(String fpath, Map mapselected){
         Map<String, Object> mapList = mapselected;
         List<List> list = ReadFile.text(fpath);
@@ -31,6 +38,13 @@ public class Operations {
         }
         return mapList;
     }
+
+    /**
+     *Capitalizes the first letter of a word if it isn't capitalized.
+     * @param str
+     * @param expression
+     * @return
+     */
     private static String capitalizeFirstLetter(String str, int expression) {
         String st= "";
         if(str == null || str.isEmpty()) {
@@ -46,6 +60,11 @@ public class Operations {
         }
         return st;
     }
+
+    /**
+     *Search for a product which the user choose
+     * @param lists
+     */
 
     public static void SearchProduct(Map lists){
         boolean AC= false;
@@ -75,6 +94,11 @@ public class Operations {
             System.out.println("No se encontró el producto: " + product);
         }
     }
+
+    /**
+     * Add a product which the user choose
+     * @param lists
+     */
 
     public static void addProduct(Map lists){
         boolean AC = false;
@@ -121,41 +145,99 @@ public class Operations {
             System.out.println("No escogiste una de nuestras categorias");
         }
     }
+
+    /**
+     * Displays products that have been added by the user
+     */
     public static void userProducts(){
         showEverything(usersProducts);
     }
+
+    /**
+     * Orders products that have been added by the user
+     */
     public static void sortUserProducts(){
         sortEverything(usersProducts);
     }
+
+    /**
+     * Displays all the products
+     * @param lists
+     */
     public static void showEverything(Map lists){
-        for (Object key : lists.keySet()){
-            Object value = lists.get(key);
-            System.out.println("Categoria: " + key);
-            if (value instanceof List) {
-                List<Object> productList = (List<Object>) value;
-                for (int i = 0; i < productList.size(); i++) {
-                    int index= i+1;
-                    System.out.println("  " + index + ". " + productList.get(i));
+        if (lists == usersProducts){
+            for (Object key : lists.keySet()) {
+                Object value = usersProducts.get(key);
+                System.out.println("Categoria: " + key);
+                if (value instanceof List) {
+                    List<Object> productList = (List<Object>) value;
+                    for (int i = 0; i < productList.size(); i++) {
+                        Object product = productList.get(i);
+                        int count = Collections.frequency(productList, product);
+                        int index = i + 1;
+                        System.out.println("  " + index + ". " + product + " (" + count + ")");
+                        i += count - 1;
+                    }
+                } else {
+                    System.out.println("  1. " + value);
                 }
-            } else{
-                System.out.println("  1. " + value);
+            }
+        }else {
+            for (Object key : lists.keySet()){
+                Object value = lists.get(key);
+                System.out.println("Categoria: " + key);
+                if (value instanceof List) {
+                    List<Object> productList = (List<Object>) value;
+                    for (int i = 0; i < productList.size(); i++) {
+                        int index= i+1;
+                        System.out.println("  " + index + ". " + productList.get(i));
+                    }
+                } else{
+                    System.out.println("  1. " + value);
+                }
             }
         }
     }
+
+    /**
+     * Orders all the products
+     * @param lists
+     */
     public static void sortEverything(Map lists){
-        List<String> order = new ArrayList<>(lists.keySet());
-        Collections.sort(order);
-        for (Object key : order){
-            Object value = lists.get(key);
-            System.out.println("Categoria: " + key);
-            if (value instanceof List) {
-                List<Object> productList = (List<Object>) value;
-                for (int i = 0; i < productList.size(); i++) {
-                    int index= i+1;
-                    System.out.println("  " + index + ". " + productList.get(i));
+        if (lists == usersProducts){
+            List<String> order = new ArrayList<>(usersProducts.keySet());
+            Collections.sort(order);
+            for (Object key : order){
+                Object value = usersProducts.get(key);
+                System.out.println("Categoria: " + key);
+                if (value instanceof List) {
+                    List<Object> productList = (List<Object>) value;
+                    for (int i = 0; i < productList.size(); i++) {
+                        Object product = productList.get(i);
+                        int count = Collections.frequency(productList, product);
+                        int index = i + 1;
+                        System.out.println("  " + index + ". " + product + " (" + count + ")");
+                        i += count - 1;
+                    }
+                } else {
+                    System.out.println("  1. " + value);
                 }
-            } else{
-                System.out.println("  1. " + value);
+            }
+        }else {
+            List<String> order = new ArrayList<>(lists.keySet());
+            Collections.sort(order);
+            for (Object key : order){
+                Object value = lists.get(key);
+                System.out.println("Categoria: " + key);
+                if (value instanceof List) {
+                    List<Object> productList = (List<Object>) value;
+                    for (int i = 0; i < productList.size(); i++) {
+                        int index= i+1;
+                        System.out.println("  " + index + ". " + productList.get(i));
+                    }
+                } else{
+                    System.out.println("  1. " + value);
+                }
             }
         }
     }

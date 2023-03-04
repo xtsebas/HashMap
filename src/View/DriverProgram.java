@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class DriverProgram {
+    /**
+     * Main program
+     * @param args
+     */
     public static void main(String[] args) {
         int follow = 1;
         Scanner in = new Scanner(System.in);

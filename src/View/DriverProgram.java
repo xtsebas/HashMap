@@ -25,9 +25,10 @@ public class DriverProgram {
                     Operations.SearchProduct(UserMap);
                     break;
                 case 3:
+                    Operations.userProducts();
                     break;
                 case 4:
-
+                    Operations.sortUserProducts();
                     break;
                 case 5:
                     Operations.showEverything(UserMap);

@@ -4,8 +4,7 @@ import java.util.*;
 
 public class Operations {
     private static Scanner in = new Scanner(System.in);
-    public static ArrayList usersProducts = new ArrayList<>();
-    public static ArrayList usersCategories = new ArrayList();
+    public static HashMap<String, Object> usersProducts = new HashMap<String, Object>();
     public static Map ListtoMap(String fpath, Map mapselected){
         Map<String, Object> mapList = mapselected;
         List<List> list = ReadFile.text(fpath);
@@ -95,19 +94,38 @@ public class Operations {
                 productList.add(product);
                 lists.put(category, productList);
             }
-            usersProducts.add(product);
-            usersCategories.add(category);
             AC = true;
         }
         if (AC) {
-            usersProducts.add(product);
+            if (!usersProducts.isEmpty()){
+                if (usersProducts.containsKey(category)) {
+                    Object index = usersProducts.get(category);
+                    if (index instanceof List) {
+                        List<Object> productUser = (List<Object>) index;
+                        productUser.add(product);
+                        usersProducts.put(category, productUser);
+                    } else {
+                        List<Object> productUser = new ArrayList<>();
+                        productUser.add(index);
+                        productUser.add(product);
+                        usersProducts.put(category, productUser);
+                    }
+                }else {
+                    usersProducts.put(category, product);
+                }
+            }else {
+                usersProducts.put(category, product);
+            }
             System.out.println("Agregado exitosamente");
         } else {
             System.out.println("No escogiste una de nuestras categorias");
         }
     }
     public static void userProducts(){
-
+        showEverything(usersProducts);
+    }
+    public static void sortUserProducts(){
+        sortEverything(usersProducts);
     }
     public static void showEverything(Map lists){
         for (Object key : lists.keySet()){

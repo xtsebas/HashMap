@@ -1,13 +1,12 @@
 package Controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Operations {
     private static Scanner in = new Scanner(System.in);
-    private static Map ListtoMap(String fpath, Map mapselected){
+    public static ArrayList usersProducts = new ArrayList<>();
+    public static ArrayList usersCategories = new ArrayList();
+    public static Map ListtoMap(String fpath, Map mapselected){
         Map<String, Object> mapList = mapselected;
         List<List> list = ReadFile.text(fpath);
 
@@ -49,11 +48,10 @@ public class Operations {
         return st;
     }
 
-    public static void SearchProduct(String file, int expression){
+    public static void SearchProduct(Map lists){
         boolean AC= false;
         System.out.println("Ingrese el producto que desea buscar");
         String product = capitalizeFirstLetter(in.nextLine(), 0);
-        Map lists= ListtoMap(file, MapFactory.MapFactory(expression));
 
         for (Object key : lists.keySet()) {
             Object value = lists.get(key);
@@ -79,33 +77,68 @@ public class Operations {
         }
     }
 
-    public static void addProduct(String file, int expression){
-        boolean AC= false;
+    public static void addProduct(Map lists){
+        boolean AC = false;
         System.out.println("Ingrese el producto que desea agregar");
         String product = capitalizeFirstLetter(in.nextLine(), 0);
         System.out.println("Ingrese a la categoria en la cual lo desea agregar");
         String category = capitalizeFirstLetter(in.nextLine(), 1);
-        Map lists= ListtoMap(file, MapFactory.MapFactory(expression));
-        for (Object key: lists.keySet()){
+        if (lists.containsKey(category)) {
+            Object value = lists.get(category);
+            if (value instanceof List) {
+                List<Object> productList = (List<Object>) value;
+                productList.add(product);
+                lists.put(category, productList);
+            } else {
+                List<Object> productList = new ArrayList<>();
+                productList.add(value);
+                productList.add(product);
+                lists.put(category, productList);
+            }
+            usersProducts.add(product);
+            usersCategories.add(category);
+            AC = true;
+        }
+        if (AC) {
+            usersProducts.add(product);
+            System.out.println("Agregado exitosamente");
+        } else {
+            System.out.println("No escogiste una de nuestras categorias");
+        }
+    }
+    public static void userProducts(){
+
+    }
+    public static void showEverything(Map lists){
+        for (Object key : lists.keySet()){
             Object value = lists.get(key);
-            if (lists.get(key) == category){
-                if (value instanceof List){
-                    List<Object> productList = (List<Object>) value;
-                    productList.add(product);
-                    lists.put(key, productList);
-                    AC=true;
-                    break;
-                }else {
-                    lists.put(key, product);
-                    AC=true;
-                    break;
+            System.out.println("Categoria: " + key);
+            if (value instanceof List) {
+                List<Object> productList = (List<Object>) value;
+                for (int i = 0; i < productList.size(); i++) {
+                    int index= i+1;
+                    System.out.println("  " + index + ". " + productList.get(i));
                 }
+            } else{
+                System.out.println("  1. " + value);
             }
         }
-        if (AC){
-            System.out.println("Agregado exitosamente");
-        }else {
-            System.out.println("No escogiste una de nuestras categorias");
+    }
+    public static void sortEverything(Map lists){
+        List<String> order = new ArrayList<>(lists.keySet());
+        Collections.sort(order);
+        for (Object key : order){
+            Object value = lists.get(key);
+            System.out.println("Categoria: " + key);
+            if (value instanceof List) {
+                List<Object> productList = (List<Object>) value;
+                for (int i = 0; i < productList.size(); i++) {
+                    int index= i+1;
+                    System.out.println("  " + index + ". " + productList.get(i));
+                }
+            } else{
+                System.out.println("  1. " + value);
+            }
         }
     }
 }

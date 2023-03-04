@@ -1,7 +1,9 @@
 package View;
 
+import Controller.MapFactory;
 import Controller.Operations;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class DriverProgram {
@@ -11,19 +13,27 @@ public class DriverProgram {
         String file= "C:\\Users\\Sebastian\\OneDrive - Universidad del Valle de Guatemala\\Escritorio\\POO\\HashMap\\ListadoProducto.txt";
         System.out.println("BIENVENIDO AL MERCADO MERCADONA\nComo desea realizar sus acciones:\n1. HashMap\n2. TreeMap\n3. LinkedHashMap");
         int option = in.nextInt(); in.nextLine();
+        Map UserMap = MapFactory.MapFactory(file, option);
         while (follow == 1){
-            System.out.println("Que desea realizar: \n1. Agregar\n2. Buscar\n3. Ordenar\n4. Mostrar todo");
+            System.out.println("Que desea realizar: \n1. Agregar\n2. Buscar\n3. Mostrar informacion de usuario\n4. Ordenar informacion de usuario\n5. Mostrar todo\n6. Mostrar todo ordenado");
             int choose = in.nextInt(); in.nextLine();
             switch (choose){
                 case 1:
-                    Operations.addProduct(file,option);
+                    Operations.addProduct(UserMap);
                     break;
                 case 2:
-                    Operations.SearchProduct(file, option);
+                    Operations.SearchProduct(UserMap);
                     break;
                 case 3:
                     break;
                 case 4:
+
+                    break;
+                case 5:
+                    Operations.showEverything(UserMap);
+                    break;
+                case 6:
+                    Operations.sortEverything(UserMap);
                     break;
                 default:
                     System.out.println("No eligio ninguna de nuestras opciones");

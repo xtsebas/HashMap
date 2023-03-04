@@ -1,11 +1,6 @@
 package Controller;
 
-import Model.LinkedHashMap;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class MapFactory {
    public static Map MapFactory(int expression){
@@ -18,7 +13,7 @@ public class MapFactory {
                ActualMap= new TreeMap<String, ArrayList>();
                break;
            case 3:
-               ActualMap = (Map) new LinkedHashMap();
+               ActualMap = new LinkedHashMap<String, ArrayList>();
                break;
            default:
                System.out.println("Sorry, You didn't select some of our options");
